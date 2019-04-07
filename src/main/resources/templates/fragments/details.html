@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+
+
+<body>
+
+<div th:fragment="viewDetails(letter, archived, revision)">
+
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="department">اسم الجهه</label>
+            <input type="text" th:value="${letter.department.name}" class="form-control" id="department"
+                   placeholder="اسم الجهه" readonly="readonly"/>
+        </div>
+        <div class="form-group col">
+            <label for="year">السنه</label>
+            <input type="text" th:value="${letter.year}" class="form-control" id="year" placeholder="السنه"
+                   readonly="readonly"/>
+        </div>
+        <div th:if="${letter.isReceivedLetter()}" class="form-group col">
+            <label for="type">النوع</label>
+            <input type="text" id="type" th:value="${letter.type}" class="form-control" readonly="readonly"/>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="number">الرقم</label>
+            <input type="text" th:value="${letter.number}" class="form-control" id="number" placeholder="الرقم"
+                   readonly="readonly"/>
+        </div>
+        <div class="form-group col">
+            <label for="date">التاريخ</label>
+            <input type="date" th:value="${letter.date}" class="form-control" id="date" placeholder="التاريخ"
+                   readonly="readonly"/>
+        </div>
+    </div>
+    <div th:if="${letter.isReceivedLetter()}">
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="departmentSentFrom">الجهه المرسل منها</label>
+                <input type="text" th:value="${letter.departmentSentFrom}" class="form-control"
+                       id="departmentSentFrom"
+                       placeholder="الجهه المرسل منها" readonly="readonly"/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="senderName">اسم المرسل</label>
+                <input type="text" th:value="${letter.senderName}" class="form-control" id="senderName"
+                       placeholder="اسم المرسل" readonly="readonly"/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="sentLetterNumber">رقم الخطاب المرسل</label>
+                <input type="text" th:value="${letter.sentLetterNumber}" class="form-control" id="sentLetterNumber"
+                       placeholder="رقم الخطاب المرسل" readonly="readonly"/>
+            </div>
+            <div class="form-group col">
+                <label for="sentLetterDate">تاريخ الخطاب المرسل</label>
+                <input type="date" th:value="${letter.sentLetterDate}" class="form-control" id="sentLetterDate"
+                       placeholder="تاريخ الخطاب المرسل" readonly="readonly"/>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${letter.isSentLetter()}">
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="sentTo">مرسل الى</label>
+                <input type="text" th:value="${letter.sentTo}" class="form-control" id="sentTo" placeholder="مرسل الى"
+                       disabled="disabled"/>
+            </div>
+            <div class="form-group col">
+                <label for="subject">العنوان</label>
+                <input type="text" th:value="${letter.subject}" class="form-control" id="subject" placeholder="العنوان"
+                       disabled="disabled"/>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="message">الرساله</label>
+        <textarea class="form-control" id="message" rows="4" readonly="readonly">[[${letter.message}]]</textarea>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="currentEdit">اخر تحديث</label>
+            <input type="text" th:value="${letter?.user?.username}" class="form-control" id="currentEdit" placeholder="اخر تحديث" disabled="disabled"/>
+        </div>
+        <div th:if="${archived}" class="form-group col">
+            <label for="currentEditTime">التوقيت</label>
+            <input type="text" th:value="${#dates.format(new java.util.Date(revision.timestamp), 'yyyy-MM-dd')}"
+                   class="form-control" id="currentEditTime" placeholder="اخر تحديث" disabled="disabled"/>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${pageTitle}"></title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css" integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/scroller/1.5.1/css/scroller.dataTables.min.css"/>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/scroller/1.5.1/js/dataTables.scroller.min.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/app.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dataTables.css}"/>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker3.min.css}"/>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{//cdn.datatables.net/plug-ins/1.10.19/features/searchHighlight/dataTables.searchHighlight.css}"/>
+
+
+    <link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+
+    <!--<script th:src="@{/js/pdfmake.min.js}"></script>-->
+    <!--<script th:src="@{/js/vfs_fonts.js}"></script>-->
+
+
+    <div th:if="${ajax}">
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+            var url = [[${url}]];
+        /*]]>*/
+       </script>
+
+        <script th:src="@{/js/dataTablesFunctions.js}"></script>
+
+        <script th:src="|/js/${fileName}|"></script>
+    </div>
+
+
+    <div th:unless="${ajax}">
+        <script th:src="@{/js/basicDataTable.js}"></script>
+    </div>
+
+</head>
+
+<body>
+<div th:replace="fragments :: navbar"></div>
+
+
+<div class="container">
+    <div th:replace="fragments :: flash"></div>
+
+    <div th:if="${received}">
+        <div th:replace="fragments :: receivedLettersButtons('الوارد')"></div>
+        <div th:replace="fragments :: searchReceived"></div>
+    </div>
+    <div th:if="${sent}">
+        <div th:replace="fragments :: sentLettersButtons('صادر')"></div>
+        <div th:replace="fragments :: searchSent"></div>
+    </div>
+
+    <div class="form-group row pt-3">
+        <label for="department" class="col-form-label">اسم الجهه</label>
+        <div class="col-sm">
+            <input type="text" th:value="${department}" class="form-control" id="department" readonly="readonly"/>
+        </div>
+    </div>
+
+    <!-- table -->
+    <table id="baseTable" class="table table-striped display" style="width:100%">
+        <thead class="thead-dark">
+
+        <div th:if="${ajax}">
+            <div th:if="${sent}">
+                <div th:replace="fragments :: ajaxSentTableHeaders"></div>
+            </div>
+            <div th:if="${received}">
+                <div th:replace="fragments :: ajaxReceivedTableHeaders"></div>
+            </div>
+
+            <!--<div th:if="${received}" th:replace="fragments :: ajaxReceivedTableHeaders"></div>-->
+        </div>
+
+        <div th:unless="${ajax}">
+            <div th:replace="fragments :: basicTableHeaders"></div>
+        </div>
+
+        </thead>
+
+        <tbody th:unless="${ajax}">
+        <tr th:each="letter, state : ${history}">
+            <div th:if="${letter.isReceivedLetter()}">
+                <td><a th:href="@{|/received/${letter.id}/history/${revision[state.index].id}|}" th:text="${state.index}"></a></td>
+            </div>
+            <div th:if="${letter.isSentLetter()}">
+                <td><a th:href="@{|/sent/${letter.id}/history/${revision[state.index].id}|}" th:text="${state.index}"></a></td>
+            </div>
+            <td th:text="${letter.date}"></td>
+            <td th:text="${#dates.format(new java.util.Date(revision[state.index].timestamp), 'yyyy-MM-dd')}"></td>
+            <td th:text="${letter.user.username}"></td>
+        </tr>
+        </tbody>
+
+        <tfoot>
+        <div th:if="${ajax}">
+            <div th:if="${sent}">
+                <div th:replace="fragments :: ajaxSentTableHeaders"></div>
+            </div>
+            <div th:if="${received}">
+                <div th:replace="fragments :: ajaxReceivedTableHeaders"></div>
+            </div>
+
+            <!--<div th:if="${received}" th:replace="fragments :: ajaxReceivedTableHeaders"></div>-->
+        </div>
+
+        <div th:unless="${ajax}">
+            <div th:replace="fragments :: basicTableHeaders"></div>
+        </div>
+
+        </tfoot>
+
+
+    </table>
+    <!-- /table -->
+
+    <a href="javascript:history.back()" class="button mr-3">رجوع</a>
+</div>
+
+
+<script src="//bartaz.github.io/sandbox.js/jquery.highlight.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+<script src="https://cdn.rtlcss.com/bootstrap/v4.2.1/js/bootstrap.min.js" integrity="sha384-a9xOd0rz8w0J8zqj1qJic7GPFfyMfoiuDjC9rqXlVOcGO/dmRqzMn34gZYDTel8k" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+group 'ah_doc_manag'
+version '1.0-SNAPSHOT'
+
+// Include the Spring Boot plugin
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/plugins-snapshot" }
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+//        maven { url "http://jasperreports.sourceforge.net/maven2" }
+    }
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:0.6.0.BUILD-SNAPSHOT"
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.1.2.RELEASE')
+    }
+}
+
+// Apply the Spring Boot plugin
+
+// Apply the Java plugin (expects src/main/java to be source folder)
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+apply plugin: 'war'
+
+jar {
+    enabled = true
+    baseName = 'ahDocManage'
+    version = '0.0.1-SNAPSHOT'
+}
+war {
+    enabled = true
+    baseName = 'ahDocManage'
+    version = '0.0.1-SNAPSHOT'
+}
+
+// Specify the location where our dependencies will be found
+repositories {
+    mavenCentral()
+}
+
+// Specify dependencies
+dependencies {
+//    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.1.2.RELEASE'
+
+//    compile 'org.springframework:spring-orm:4.2.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-orm', version: '5.1.4.RELEASE'
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-web', version: '5.1.4.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.1.4.RELEASE'
+
+    providedCompile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '2.1.2.RELEASE'
+
+
+
+//    compile 'org.springframework.data:spring-data-jpa:1.9.2.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.1.4.RELEASE'
+
+//    compile 'org.hibernate:hibernate-core:5.2.1.Final'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.4.1.Final'
+
+//    compile 'org.hibernate:hibernate-entitymanager:5.2.1.Final'
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.4.1.Final'
+
+//    compile 'org.apache.tomcat:tomcat-dbcp:8.0.32'
+    compile group: 'org.apache.tomcat', name: 'tomcat-dbcp', version: '9.0.14'
+
+
+
+//    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.1.2.RELEASE'
+
+//    compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.2.RELEASE'
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '3.0.4.RELEASE'
+
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.3.RELEASE'
+
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '2.1.2.RELEASE'
+
+
+//    compile 'com.h2database:h2:1.4.191'
+    compile 'com.microsoft.sqlserver:mssql-jdbc:7.0.0.jre8'
+
+    compile 'org.hashids:hashids:1.0.1'
+
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13'
+
+
+    runtime 'net.sourceforge.nekohtml:nekohtml:1.9.22'
+
+
+    // https://mvnrepository.com/artifact/javax.validation/validation-api
+    compile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
+
+    compile 'org.glassfish.web:javax.el:2.2.4'
+
+    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+
+    compile 'com.github.darrachequesne:spring-data-jpa-datatables:5.0.0'
+
+    compile group: 'org.hibernate', name: 'hibernate-envers', version: '5.4.1.Final'
+
+    compile group: 'cc.catalysts.boot', name: 'cat-boot-report-pdf', version: '0.2.28'
+
+}
+//
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '2.9'
+//}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: basicHeadTag(${title})"></head>
+
+<div th:replace="fragments :: navbar"></div>
+
+
+<body>
+
+<div class="container">
+    <div class="row">
+        <button id="showHideButton" class="btn btn-primary btn-block">اظهار</button>
+        <div th:each="image : ${images}" class="col-sm-6 p-3" th:classappend="${image.deleted} ? 'd-none deleted' : ''">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${image.path}"></h5>
+                    <a th:href="@{|/${sentOrReceived}/${image.letter.id}/images/${image.id}|}"
+                       class="btn btn-primary" target="_blank">اظهار</a>
+
+                    <a href="#" class="btn btn-primary">مسح</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var button = $("#showHideButton");
+    button.on("click", function () {
+        $(".deleted").toggleClass("d-none");
+        var text = button.text();
+        button.text(
+            text === "اظهار" ? "اخفاء" : "اظهار"
+        );
+
+    });
+</script>
+
+</body>
+</html>

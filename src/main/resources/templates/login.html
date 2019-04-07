@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ar" dir="rtl">
+<head th:replace="fragments :: basicHeadTag('تسجيل دخول')"></head>
+
+<body>
+
+<div class="content">
+    <div class="container main-content">
+        <h3>تسجيل دخول</h3>
+        <form th:action="@{/login}" method="post">
+            <div th:replace="fragments :: flash"></div>
+
+
+            <div class="form-group row">
+                <label for="department" class="col-sm-2 col-form-label">اسم الجهه</label>
+                <div class="col-sm-6">
+                    <select class="custom-select" id="department" name="department">
+                        <option value="0" selected="selected" disabled="disabled">--اختر اسم الجهه--</option>
+                        <option th:each="department : ${departments}" th:value="${department.id}"
+                                th:text="${department.name}">اسم الجهه
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="username" class="col-sm-2 col-form-label">اسم المستخدم</label>
+                <div class="col-sm-6">
+                    <input type="text" id="username" name="username" class="form-control" autofocus="autofocus"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-sm-2 col-form-label">كلمه السر</label>
+                <div class="col-sm-6">
+                    <input type="password" id="password" name="password" class="form-control" autofocus="autofocus"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-primary">دخول</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

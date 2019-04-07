@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: basicHeadTag('اضافه صادر')"></head>
+
+<body>
+<!-- navbar -->
+<div th:replace="fragments :: navbar"></div>
+
+<!-- /navbar -->
+
+<div class="container">
+    <div th:replace="fragments :: flash"></div>
+    <div th:replace="fragments :: sentLettersButtons('اضافه صادر')"></div>
+
+
+    <form class="d-inline pt-5" th:action="@{/sent/add-header}" method="post" th:object="${letter}">
+        <div th:replace="fragments/form :: formHiddenInput"></div>
+
+        <div th:replace="fragments/form :: formHeader(letter=${letter}, readonly='false')"></div>
+
+        <button type="submit" class="btn btn-primary">حفظ</button>
+    </form>
+    <a href="javascript:history.back()" class="button mr-3">رجوع</a>
+</div>
+
+</body>
+</html>

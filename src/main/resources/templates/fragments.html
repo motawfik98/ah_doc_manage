@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+
+<!-- navbar -->
+<body>
+<div class="pos-f-t pb-4" th:fragment="navbar">
+    <nav class="navbar navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#content"
+                aria-controls="content" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="navbar-right list-inline text-white">
+            <li class="align-middle list-inline-item" sec:authentication="name">motawfik</li>
+            <li class="list-inline-item">
+                <form class="inline" th:action="@{/logout}" method="post">
+                    <button class="btn btn-link" type="submit">تسجيل خروج</button>
+                </form>
+            </li>
+        </ul>
+
+    </nav>
+    <!-- nav links -->
+    <div class="collapse" id="content">
+        <div class="bg-dark p-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="text-info">بيانات رأيسيه</h5>
+                        <div class="row">
+                            <a href="/sent">صادر</a>
+                        </div>
+                        <div class="row">
+                            <a href="/received">وارد</a>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <h5 class="text-info">خطابات</h5>
+                    </div>
+
+                    <div class="col">
+                        <h5 class="text-info">متابعه</h5>
+                    </div>
+
+                    <div class="col">
+                        <h5 class="text-info">تقارير</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /nav links -->
+</div>
+
+<!--heading and control buttons-->
+<div th:fragment="headingAndButtons(headerName, addLink)">
+    <h1 class="d-inline" th:text="${headerName}">Letters</h1>
+    <div class="btn-group float-right " roleValue="group" aria-label="Basic example">
+        <a class="btn btn-secondary mr-3"
+           data-toggle="collapse" data-target="#searchCollapse"
+           aria-expanded="false" aria-controls="searchCollapse">بحث</a>
+
+        <a th:href="${addLink}" class="btn btn-secondary mr-3">اضافه</a>
+    </div>
+</div>
+
+
+<div th:fragment="sentLettersButtons(headerName)">
+    <div th:replace="fragments :: headingAndButtons(headerName=${headerName},
+                    addLink='/add-sent-header')"></div>
+</div>
+<div th:fragment="receivedLettersButtons(headerName)">
+    <div th:replace="fragments :: headingAndButtons(headerName=${headerName},
+                    addLink='/add-received-header')"></div>
+</div>
+
+<!--/heading and control buttons-->
+
+<!--flash message-->
+<div th:fragment="flash" th:if="${flash != null}" th:classappend="${#strings.toLowerCase(flash.status)}"
+     class="alert alert-warning alert-dismissible fade show container flash" roleValue="alert">
+    <div th:text="${flash.message}" class="flash"></div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<!--/flash message-->
+
+<!--head-->
+<head th:fragment="basicHeadTag(titleName)">
+    <meta charset="utf-8"/>
+
+    <title th:text="${titleName}">titleName</title>
+
+    <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css" integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://cdn.rtlcss.com/bootstrap/v4.2.1/js/bootstrap.min.js" integrity="sha384-a9xOd0rz8w0J8zqj1qJic7GPFfyMfoiuDjC9rqXlVOcGO/dmRqzMn34gZYDTel8k" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/app.css}"/>
+</head>
+<!--/head-->
+
+<!--letter links buttons-->
+<div th:fragment="letterLinks">
+
+</div>
+
+<!--/letter links buttons-->
+
+<!--delete modal-->
+<div th:fragment="deleteModal(deleteUrl)">
+    <div class="modal fade" id="deleteModal" tabindex="-1" roleValue="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" roleValue="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">مسح سجل</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    هل انت متأكد من مسح السجل ؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                    <form th:action="${deleteUrl}" method="post">
+                        <button type="submit" class="btn btn-primary">مسح</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="editHistoryModal(editLink)">
+    <div class="modal fade" id="editHistoryModal" tabindex="-1" roleValue="dialog"
+         aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" roleValue="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">انتبه</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    سوف يتم توجيهك الى احدث نسخه من الخطاب للتعديل
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                    <a th:href="${editLink}">موافق</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--/delete modal-->
+
+<div th:fragment="basicTableHeaders">
+    <tr>
+        <th>رقم النسخه</th>
+        <th>تاريخ الخطاب</th>
+        <th>تاريخ التعديل</th>
+        <th>اسم المعدل</th>
+    </tr>
+</div>
+
+<div th:fragment="ajaxTableHeaders">
+    <tr>
+        <th></th>
+        <th>الرقم</th>
+        <th>السنه</th>
+        <th>التاريخ</th>
+        <th>العنوان</th>
+
+</div>
+
+<div th:fragment="ajaxSentTableHeaders">
+    <tr>
+        <th></th>
+        <th>الرقم</th>
+        <th>السنه</th>
+        <th>التاريخ</th>
+        <th>العنوان</th>
+        <th>مرسل الى</th>
+        <th>الرساله</th>
+    </tr>
+</div>
+
+<div th:fragment="ajaxReceivedTableHeaders">
+    <tr>
+        <th></th>
+        <th>الرقم</th>
+        <th>السنه</th>
+        <th>التاريخ</th>
+        <th>العنوان</th>
+        <th>اسم المرسل</th>
+        <th>الجهه المرسل منها</th>
+        <th>رقم الخطاب المرسل</th>
+        <th>الرساله</th>
+    </tr>
+</div>
+
+
+<div th:fragment="basicSearch">
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="year">السنه</label>
+            <input type="text" class="form-control search" id="year" placeholder="السنه"/>
+        </div>
+        <div class="form-group col">
+            <label for="number">الرقم</label>
+            <input type="text" class="form-control search" id="number" placeholder="الرقم"/>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-6">
+            <label for="subject">العنوان</label>
+            <input type="text" class="form-control search" id="subject" placeholder="العنوان"/>
+        </div>
+        <div class="form-group col">
+            <label for="min">من</label>
+            <input type="text" class="form-control search datepicker" id="min" placeholder="من"/>
+        </div>
+        <div class="form-group col">
+            <label for="max">الى</label>
+            <input type="text" class="form-control search datepicker" id="max" placeholder="الى"/>
+        </div>
+    </div>
+
+</div>
+
+<div th:fragment="searchSent">
+    <div class="collapse" id="searchCollapse">
+        <div th:replace="fragments :: basicSearch"></div>
+        <div class="form-group">
+            <label for="sentTo">مرسل الى</label>
+            <input type="text" class="form-control search" id="sentTo" placeholder="مرسل الى"/>
+        </div>
+        <div class="form-group">
+            <label for="message">الرساله</label>
+            <input type="text" class="form-control search" id="message" placeholder="الرساله"/>
+        </div>
+    </div>
+</div>
+<div th:fragment="searchReceived">
+    <div class="collapse" id="searchCollapse">
+        <div th:replace="fragments :: basicSearch"></div>
+        <div class="form-group">
+            <label for="senderName">اسم المرسل</label>
+            <input type="text" class="form-control search" id="senderName" placeholder="اسم المرسل"/>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="departmentSentFrom">الجهه المرسل منها</label>
+                <input type="text" class="form-control search" id="departmentSentFrom" placeholder="الجهه المرسل منها"/>
+            </div>
+            <div class="form-group col">
+                <label for="sentLetterNumber">رقم الخطاب المرسل</label>
+                <input type="text" class="form-control search" id="sentLetterNumber" placeholder="رقم الخطاب المرسل"/>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label for="message">الرساله</label>
+            <input type="text" class="form-control search" id="message" placeholder="الرساله"/>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<!-- /navbar -->
+</html>

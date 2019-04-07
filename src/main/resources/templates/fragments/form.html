@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div th:fragment="formHiddenInput">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{department}"/>
+    <input type="hidden" th:field="*{user}"/>
+</div>
+
+<div th:fragment="formHeader(letter, readonly)">
+<div class="form-row">
+    <div class="form-group col">
+        <label for="department">اسم الجهه</label>
+        <input type="text" th:value="${letter.department.name}" class="form-control" id="department"
+               readonly="readonly" th:classappend="${#fields.hasErrors('department')} ? 'is-invalid' : ''"/>
+        <div class="invalid-feedback" th:errors="*{department}"></div>
+    </div>
+    <div class="form-group col">
+        <label for="year">السنه</label>
+        <input type="text" th:field="*{year}" class="form-control" id="year" placeholder="السنه" th:readonly="${readonly}"
+               th:classappend="${#fields.hasErrors('year')} ? 'is-invalid' : ''"/>
+        <div class="invalid-feedback" th:errors="*{year}"></div>
+    </div>
+    <div th:if="${letter.isReceivedLetter()}" class="form-group col">
+        <div th:if="${readonly}">
+            <label for="readonlyType">النوع</label>
+            <input type="text" id="readonlyType" th:field="*{type}" class="form-control" readonly="readonly"/>
+        </div>
+        <div th:unless="${readonly}">
+            <label for="type">النوع</label>
+            <select class="custom-select" id="type" th:field="*{type}"
+                    th:classappend="${#fields.hasErrors('type')} ? 'is-invalid' : ''">
+                <option disabled="disabled" selected="selected" value="0"> -- اختر نوع الخطاب --</option>
+                <option th:each="type : ${types}" th:text="${type}" th:value="${type}"></option>
+            </select>
+        </div>
+        <div class="invalid-feedback" th:errors="*{type}"></div>
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col">
+        <label for="number">الرقم</label>
+        <input type="text" th:field="*{number}" class="form-control" id="number" placeholder="الرقم" th:readonly="${readonly}"
+               th:classappend="${#fields.hasErrors('number')} ? 'is-invalid' : ''"/>
+        <div class="invalid-feedback" th:errors="*{number}"></div>
+    </div>
+    <div class="form-group col">
+        <label for="date">التاريخ</label>
+        <input type="date" th:field="*{date}" class="form-control" id="date" placeholder="التاريخ" th:readonly="${readonly}"
+               th:classappend="${#fields.hasErrors('date')} ? 'is-invalid' : ''"/>
+        <div class="invalid-feedback" th:errors="*{date}"></div>
+    </div>
+</div>
+</div>
+
+
+<div th:fragment="formBody(letter, readonly)">
+    <div th:if="${letter.isSentLetter()}" class="form-row">
+        <div class="form-group col">
+            <label for="sentTo">مرسل الى</label>
+            <input type="text" th:field="*{sentTo}" class="form-control" id="sentTo" placeholder="مرسل الى" th:readonly="${readonly}"/>
+        </div>
+        <div class="form-group col">
+            <label for="subject">العنوان</label>
+            <input type="text" th:field="*{subject}" class="form-control" id="subject" placeholder="العنوان" th:readonly="${readonly}"/>
+        </div>
+    </div>
+
+    <div th:if="${letter.isReceivedLetter()}">
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="departmentSentFrom">الجهه المرسل منها</label>
+                <input type="text" th:field="*{departmentSentFrom}" class="form-control" id="departmentSentFrom" th:readonly="${readonly}"
+                       placeholder="الجهه المرسل منها"/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="senderName">اسم المرسل</label>
+                <input type="text" th:field="*{senderName}" class="form-control" id="senderName" th:readonly="${readonly}"
+                       placeholder="اسم المرسل"/>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="sentLetterNumber">رقم الخطاب المرسل</label>
+                <input type="text" th:field="*{sentLetterNumber}" class="form-control" id="sentLetterNumber" th:readonly="${readonly}"
+                       placeholder="رقم الخطاب المرسل"/>
+            </div>
+            <div class="form-group col">
+                <label for="sentLetterDate">تاريخ الخطاب المرسل</label>
+                <input type="date" th:field="*{sentLetterDate}" class="form-control" id="sentLetterDate" th:readonly="${readonly}"
+                       placeholder="تاريخ الخطاب المرسل"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="message">الرساله</label>
+        <textarea th:field="*{message}" class="form-control" id="message" rows="4"></textarea>
+    </div>
+</div>
+
+
+<div th:fragment="viewLastUpdateData(letter, archived, revision)">
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="currentEdit">اخر تحديث</label>
+            <input type="text" th:value="${letter?.user?.username}" class="form-control" id="currentEdit" placeholder="اخر تحديث" disabled="disabled"/>
+        </div>
+        <div th:if="${archived}" class="form-group col">
+            <label for="currentEditTime">التوقيت</label>
+            <input type="text" th:value="${#dates.format(new java.util.Date(revision.timestamp), 'yyyy-MM-dd')}"
+                   class="form-control" id="currentEditTime" placeholder="اخر تحديث" disabled="disabled"/>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
+

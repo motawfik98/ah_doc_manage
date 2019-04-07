@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: basicHeadTag('تعديل وارد')"></head>
+
+<body>
+<!-- navbar -->
+<div th:replace="fragments :: navbar"></div>
+
+<!-- /navbar -->
+
+<div class="container">
+    <div th:replace="fragments :: flash"></div>
+    <div th:replace="fragments :: receivedLettersButtons('Edit Received Letter')"></div>
+
+
+    <form class="d-inline pt-5" th:action="@{|/received/form/${letter.id}/edit|}" method="post"
+          th:object="${letter}">
+
+        <div th:replace="fragments/form :: formHiddenInput"></div>
+        <div th:replace="fragments/form :: formHeader(letter=${letter}, readonly='true')"></div>
+        <div th:replace="fragments/form :: formBody(letter=${letter}, readonly='false')"></div>
+
+
+        <button type="submit" class="btn btn-primary mr-3">حفظ</button>
+    </form>
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#deleteModal">مسح</button>
+
+
+    <div class="btn-group dropup" role="group">
+        <button id="links" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            ربط بخطاب
+        </button>
+        <div class="dropdown-menu" aria-labelledby="links">
+            <a th:href="@{|/links/received/${letter.id}/select-previous-received|}" class="dropdown-item">وارد</a>
+            <a th:href="@{|/links/received/${letter.id}/select-previous-sent|}" class="dropdown-item">صادر</a>
+        </div>
+    </div>
+    <a href="javascript:history.back()" class="button mr-3">رجوع</a>
+
+    <!--modal-->
+    <div th:replace="fragments :: deleteModal(|/received/${letter.id}/delete|)"></div>
+    <!--/modal-->
+</div>
+
+</body>
+</html>
