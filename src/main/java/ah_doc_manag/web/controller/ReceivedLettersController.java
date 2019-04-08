@@ -26,14 +26,14 @@ public class ReceivedLettersController {
 
 
     @PreAuthorize("hasRole('ROLE_CREATE')")
-    @RequestMapping(value = "/add-received-header", method = RequestMethod.POST)
+    @RequestMapping(value = "/received/add-header", method = RequestMethod.POST)
     public String addHeader(@Valid ReceivedLetter receivedLetter, BindingResult result, RedirectAttributes redirectAttributes) {
         Department currentDepartmentLoggedIn = authenticationFacade.getDepartment(); // gets the current logged in department
         ActiveUser loggedInUser = authenticationFacade.getLoggedInUser(); // gets the current logged in user
         if (result.hasErrors()) { // checks if there is any errors in filling the fields
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.receivedLetter", result); // adds a flash attribute with the error field and message
             redirectAttributes.addFlashAttribute("receivedLetter", receivedLetter); // adds the sentLetter to the user for not wasting all of the filled data
-            return "redirect:/add-received-header"; // redirect to the same page to make the user correct these errors
+            return "redirect:/received/add-header"; // redirect to the same page to make the user correct these errors
         }
 
 
@@ -46,10 +46,10 @@ public class ReceivedLettersController {
             receivedLetter.setDepartment(currentDepartmentLoggedIn);
             redirectAttributes.addFlashAttribute("receivedLetter", receivedLetter);
             redirectAttributes.addFlashAttribute("flash", new FlashMessage("This row has been added", FlashMessage.Status.SUCCESS));
-            return "redirect:/add-received-header";
+            return "redirect:/received/add-header";
         }
         redirectAttributes.addFlashAttribute("flash", new FlashMessage("Letter has been successfully saved", FlashMessage.Status.SUCCESS));
-        return String.format("redirect:received/form/%s/edit", receivedLetter.getId());
+        return String.format("redirect:/received/form/%s/edit", receivedLetter.getId());
     }
 
 

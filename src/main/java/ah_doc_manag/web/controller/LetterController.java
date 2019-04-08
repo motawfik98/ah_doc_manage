@@ -60,40 +60,14 @@ public class LetterController<T extends Letter> {
             letter.setDepartment(currentLoggedIn);
             model.addAttribute("letter", letter);
         }
+        model.addAttribute("types", ReceivedLetter.getTypes());
 
         return String.format("%s/form/header", type);
     }
 
-    @PreAuthorize("hasRole('ROLE_CREATE')")
-    @RequestMapping(value = "/{type}/add-header", method = RequestMethod.POST)
-    public String addHeader(@Valid T letter, BindingResult result, RedirectAttributes redirectAttributes, @PathVariable String type) {
-        Department currentDepartmentLoggedIn = authenticationFacade.getDepartment(); // gets the current logged in department
-        ActiveUser loggedInUser = authenticationFacade.getLoggedInUser(); // gets the current logged in user
-        String fullName = type + "Letter";
-        if (result.hasErrors()) { // checks if there is any errors in filling the fields
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult." + fullName, result); // adds a flash attribute with the error field and message
-            redirectAttributes.addFlashAttribute("letter", letter); // adds the sentLetter to the user for not wasting all of the filled data
-            return String.format("redirect:/%s/add-header", type);
-        }
-
-        currentDepartmentLoggedIn.addLetter(letter); // adds the sentLetter to the current logged in department
-        loggedInUser.addLetter(letter);
-        if (!letterService.save(letter)) {
-            currentDepartmentLoggedIn.removeLetter(letter); // remove the added sentLetter from the current logged in department
-            loggedInUser.removeLetter(letter); // remove the added sentLetter from the current logged in user
-            letter.setId(null); // sets the ID to null to give hibernate access to assign it another ID
-            letter.setDepartment(currentDepartmentLoggedIn); // sets the department of the letter to the current logged in
-            redirectAttributes.addFlashAttribute("letter", letter); // adds the sentLetter to the user for not wasting all of the filled data
-            redirectAttributes.addFlashAttribute("flash", new FlashMessage("This row has been added", FlashMessage.Status.FAILURE));
-            return String.format("redirect:/%s/add-header", type);
-        }
-        // save completed successfully
-        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Letter has been successfully saved", FlashMessage.Status.SUCCESS));
-        return String.format("redirect:%s/form/%s/edit", type, letter.getId()); // redirect to the edit page
-    }
 
     @PreAuthorize("hasRole('ROLE_READ')")
-    @RequestMapping("/generic/{type}/form/{letterID}/edit")
+    @RequestMapping("/{type}/form/{letterID}/edit")
     public String editLetterForm(@PathVariable String type, @PathVariable long letterID, Model model) {
         if (!model.containsAttribute("letter")) // gets the sentLetter with the given ID and initializing its links and department and user
             model.addAttribute("letter", letterService.findById(letterID).get());

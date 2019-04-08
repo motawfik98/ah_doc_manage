@@ -19,7 +19,7 @@ import java.util.Set;
         @UniqueConstraint(columnNames = {"year", "number", "department_id"})
 })
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@SequenceGenerator(name="seq", initialValue=100000)
+@SequenceGenerator(name="seq", initialValue=200000)
 
 @YearEqualsDate()
 

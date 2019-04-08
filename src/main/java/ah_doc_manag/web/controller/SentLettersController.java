@@ -36,14 +36,14 @@ public class SentLettersController {
 
 
     @PreAuthorize("hasRole('ROLE_CREATE')")
-    @RequestMapping(value = "/add-sent-header", method = RequestMethod.POST)
+    @RequestMapping(value = "/sent/add-header", method = RequestMethod.POST)
     public String addHeader(@Valid SentLetter sentLetter, BindingResult result, RedirectAttributes redirectAttributes) {
         Department currentDepartmentLoggedIn = authenticationFacade.getDepartment(); // gets the current logged in department
         ActiveUser loggedInUser = authenticationFacade.getLoggedInUser(); // gets the current logged in user
         if (result.hasErrors()) { // checks if there is any errors in filling the fields
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.sentLetter", result); // adds a flash attribute with the error field and message
             redirectAttributes.addFlashAttribute("sentLetter", sentLetter); // adds the sentLetter to the user for not wasting all of the filled data
-            return "redirect:/add-sent-header";
+            return "redirect:/sent/add-header";
         }
 
         currentDepartmentLoggedIn.addLetter(sentLetter); // adds the sentLetter to the current logged in department
@@ -55,11 +55,11 @@ public class SentLettersController {
             sentLetter.setDepartment(currentDepartmentLoggedIn); // sets the department of the letter to the current logged in
             redirectAttributes.addFlashAttribute("sentLetter", sentLetter); // adds the sentLetter to the user for not wasting all of the filled data
             redirectAttributes.addFlashAttribute("flash", new FlashMessage("This row has been added", FlashMessage.Status.FAILURE));
-            return "redirect:/add-sent-header";
+            return "redirect:/sent/add-header";
         }
         // save completed successfully
         redirectAttributes.addFlashAttribute("flash", new FlashMessage("Letter has been successfully saved", FlashMessage.Status.SUCCESS));
-        return String.format("redirect:sent/form/%s/edit", sentLetter.getId()); // redirect to the edit page
+        return String.format("redirect:/sent/form/%s/edit", sentLetter.getId()); // redirect to the edit page
     }
 
 

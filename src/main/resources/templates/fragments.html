@@ -68,11 +68,11 @@
 
 <div th:fragment="sentLettersButtons(headerName)">
     <div th:replace="fragments :: headingAndButtons(headerName=${headerName},
-                    addLink='/add-sent-header')"></div>
+                    addLink='/sent/add-header')"></div>
 </div>
 <div th:fragment="receivedLettersButtons(headerName)">
     <div th:replace="fragments :: headingAndButtons(headerName=${headerName},
-                    addLink='/add-received-header')"></div>
+                    addLink='/received/add-header')"></div>
 </div>
 
 <!--/heading and control buttons-->
