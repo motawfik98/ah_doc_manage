@@ -18,6 +18,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -99,7 +101,7 @@ public class LetterController<T extends Letter> {
     public String deleteLetter(@PathVariable String type, @PathVariable long letterID, RedirectAttributes redirectAttributes) {
         letterService.delete(letterID);
         // inform the user that the letter was successfully deleted
-        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Letter has been deleted", FlashMessage.Status.SUCCESS));
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("تم الغاء الخطاب", FlashMessage.Status.SUCCESS));
         return "redirect:/show-sent";
     }
 
@@ -138,6 +140,7 @@ public class LetterController<T extends Letter> {
         model.addAttribute("images", images);
         model.addAttribute("title", "صور الصادر");
         model.addAttribute("sentOrReceived", type);
+        model.addAttribute("letterID", letterID);
         return "common/images";
     }
 
@@ -156,4 +159,16 @@ public class LetterController<T extends Letter> {
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_CREATE')")
+    @RequestMapping(value = "/{type}/{letterID}/images/add", method = RequestMethod.POST)
+    public String addImage(@RequestParam MultipartFile imageBytes, @RequestParam long letterID) {
+        Image image = new Image();
+        image.setLetter(letterService.findById(letterID).get());
+        boolean save = imageService.save(image, imageBytes);
+        if(!save) {
+            // TODO display a flash message saying that the image wasn't saved
+        }
+        return "common/images";
+
+    }
 }

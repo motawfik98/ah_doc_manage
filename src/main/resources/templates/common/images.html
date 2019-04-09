@@ -24,6 +24,14 @@
         </div>
     </div>
 
+    <form th:action="@{|/${sentOrReceived}/${letterID}/images/add|}" method="post">
+        <div class="custom-file p-5">
+            <input type="file" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile">رفع صوره جديده</label>
+        </div>
+
+    </form>
+
 </div>
 
 <script>
