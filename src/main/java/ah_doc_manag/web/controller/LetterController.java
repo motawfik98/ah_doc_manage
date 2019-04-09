@@ -38,7 +38,6 @@ public class LetterController<T extends Letter> {
 
     @PreAuthorize("hasRole('ROLE_READ')")
     @RequestMapping("/generic/{letterId}")
-
     public String viewLetter(@PathVariable long letterId, Model model) {
         Letter letter = letterService.findById(letterId).get(); // gets the required letter to pdf its details
         model.addAttribute("archived", false);
@@ -161,7 +160,7 @@ public class LetterController<T extends Letter> {
 
     @PreAuthorize("hasRole('ROLE_CREATE')")
     @RequestMapping(value = "/{type}/{letterID}/images/add", method = RequestMethod.POST)
-    public String addImage(@RequestParam MultipartFile imageBytes, @RequestParam long letterID) {
+    public String addImage(@RequestParam MultipartFile imageBytes, @PathVariable long letterID) {
         Image image = new Image();
         image.setLetter(letterService.findById(letterID).get());
         boolean save = imageService.save(image, imageBytes);

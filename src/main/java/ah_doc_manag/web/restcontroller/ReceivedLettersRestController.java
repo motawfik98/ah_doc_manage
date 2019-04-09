@@ -44,6 +44,11 @@ public class ReceivedLettersRestController extends LetterRestController<Received
                 specificationsBuilder.getResult());
     }
 
+    @RequestMapping("/data/select-received-letters")
+    public DataTablesOutput<ReceivedLetter> buildSpecificationsWithNoCustomSearch(@Valid DataTablesInput input) {
+        return receivedLettersDataTablesRepository.findAll(input);
+    }
+
     @RequestMapping("/received/print")
     public ModelAndView printReceived() {
         Map<String, Object> model = new HashMap<>();

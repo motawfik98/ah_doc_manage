@@ -18,10 +18,10 @@ $(document).ready(function () {
             {data: "number"},
             {data: "date"},
             {data: "subject"},
-            {data: "message"},
+            {data: "message"}
         ],
         columnDefs: [
-          { "searchable": false, "targets": [2, 3, 4] },
+          { "searchable": false, "targets": [2, 3, 4] }
         ],
 
         searchHighlight: true

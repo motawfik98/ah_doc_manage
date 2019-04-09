@@ -54,11 +54,11 @@ public class SentLettersController {
             sentLetter.setId(null); // sets the ID to null to give hibernate access to assign it another ID
             sentLetter.setDepartment(currentDepartmentLoggedIn); // sets the department of the letter to the current logged in
             redirectAttributes.addFlashAttribute("sentLetter", sentLetter); // adds the sentLetter to the user for not wasting all of the filled data
-            redirectAttributes.addFlashAttribute("flash", new FlashMessage("This row has been added", FlashMessage.Status.FAILURE));
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("تم اضافه الخطاب من قبل", FlashMessage.Status.FAILURE));
             return "redirect:/sent/add-header";
         }
         // save completed successfully
-        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Letter has been successfully saved", FlashMessage.Status.SUCCESS));
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("تم الحفظ", FlashMessage.Status.SUCCESS));
         return String.format("redirect:/sent/form/%s/edit", sentLetter.getId()); // redirect to the edit page
     }
 
@@ -74,8 +74,8 @@ public class SentLettersController {
 
         sentLetterService.save(sentLetter);
         // inform the user that the letter was updated
-        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Letter has been successfully edited", FlashMessage.Status.SUCCESS));
-        return String.format("redirect:/sent/%s", sentLetter.getId()); // redirect to pdf the letter details
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("تم التعديل", FlashMessage.Status.SUCCESS));
+        return String.format("redirect:/generic/%s", sentLetter.getId()); // redirect to pdf the letter details
     }
 
 

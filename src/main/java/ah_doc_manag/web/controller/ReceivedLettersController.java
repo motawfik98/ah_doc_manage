@@ -45,10 +45,10 @@ public class ReceivedLettersController {
             receivedLetter.setId(null);
             receivedLetter.setDepartment(currentDepartmentLoggedIn);
             redirectAttributes.addFlashAttribute("receivedLetter", receivedLetter);
-            redirectAttributes.addFlashAttribute("flash", new FlashMessage("This row has been added", FlashMessage.Status.SUCCESS));
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage("تم اضافه الخطاب من قبل", FlashMessage.Status.SUCCESS));
             return "redirect:/received/add-header";
         }
-        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Letter has been successfully saved", FlashMessage.Status.SUCCESS));
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("تم الحفظ", FlashMessage.Status.SUCCESS));
         return String.format("redirect:/received/form/%s/edit", receivedLetter.getId());
     }
 
@@ -65,7 +65,7 @@ public class ReceivedLettersController {
         }
 
         receivedLetterService.save(receivedLetter);
-        redirectAttributes.addFlashAttribute("flash", new FlashMessage("Letter has been successfully edited", FlashMessage.Status.SUCCESS));
-        return String.format("redirect:/received/%s", receivedLetter.getId());
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("تم التعديل", FlashMessage.Status.SUCCESS));
+        return String.format("redirect:/generic/%s", receivedLetter.getId());
     }
 }
