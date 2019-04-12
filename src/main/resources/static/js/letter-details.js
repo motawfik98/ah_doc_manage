@@ -6,9 +6,10 @@ $(document).ready(function () {
         },
         pageLength: 5,
         lengthMenu: [5],
-        ajax: "/data/select-sent-letters",
+        ajax: "dummy/url",
         serverSide: true,
         processing: true,
+        deferLoading: 0,
         columns: [
             {
                 data: "date",
