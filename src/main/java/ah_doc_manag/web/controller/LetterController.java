@@ -40,13 +40,14 @@ public class LetterController<T extends Letter> {
     @RequestMapping("/generic/{letterId}")
     public String viewLetter(@PathVariable long letterId, Model model) {
         Letter letter = letterService.findById(letterId).get(); // gets the required letter to pdf its details
+        String type =  (letter.isSentLetter()) ? "sent" : "received";
+        String title = (letter.isSentLetter()) ? "بيانات الصادر" : "بيانات الوارد";
+
         model.addAttribute("archived", false);
         model.addAttribute("letter", letter); // adds it to the template
-        if (letter.isSentLetter()) {
-            return "sent/details";
-        } else {
-            return "received/details";
-        }
+        model.addAttribute("type", type);
+        model.addAttribute("title", title);
+        return "common/letter-details";
     }
 
     @RequestMapping("/{type}/add-header")
@@ -121,6 +122,8 @@ public class LetterController<T extends Letter> {
     @PreAuthorize("hasRole('ROLE_READ')")
     @RequestMapping("/{type}/{letterID}/history/{versionID}")
     public String showHistoryVersion(@PathVariable String type, @PathVariable long letterID, @PathVariable long versionID, Model model) {
+        String title = (type.equals("sent")) ? "بيانات الصادر" : "بيانات الوارد";
+
         List<T> history = letterHistoryService.getLetterHistory(versionID, false);
         List<DefaultRevisionEntity> timeOfHistory = letterHistoryService.getTimeOfHistory(versionID, false);
         T archivedVersion = history.get(0);
@@ -128,8 +131,9 @@ public class LetterController<T extends Letter> {
         model.addAttribute("letter", archivedVersion);
         model.addAttribute("archived", true);
         model.addAttribute("revision", revision);
-
-        return String.format("%s/details", type);
+        model.addAttribute("type", type);
+        model.addAttribute("title", title);
+        return "common/letter-details";
     }
 
     @PreAuthorize("hasRole('ROLE_READ')")
