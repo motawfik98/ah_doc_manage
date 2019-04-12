@@ -161,7 +161,8 @@ public class LetterController<T extends Letter> {
         if(!save) {
             // TODO display a flash message saying that the image wasn't saved
         }
-        return "common/images";
+
+        return String.format("redirect:/generic/%s", letterID);
 
     }
 }

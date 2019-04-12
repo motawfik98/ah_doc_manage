@@ -21,8 +21,9 @@ $(document).ready(function () {
                     class : 'card-body'
                 }).appendTo(cardDiv);
 
+                var imageName = (item.path == null) ? item.addedOn : item.path;
                 $('<h5>', {
-                    text: item.path
+                    text: imageName
                 }).appendTo(cardBody);
 
                 $('<a>', {
@@ -51,4 +52,12 @@ $(document).ready(function () {
             text === "اظهار" ? "اخفاء" : "اظهار"
         );
     });
+
+    $('#inputFile').on('change',function(){
+        //get the file name
+        var fileName = $(this).val().replace('C:\\fakepath\\', " ");
+
+        //replace the "Choose a file" label
+        $(this).next('.custom-file-label').html(fileName);
+    })
 });

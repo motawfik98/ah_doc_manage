@@ -13,10 +13,11 @@
     <div id="imagesContainer"></div>
 
 
-    <form th:action="@{|/${sentOrReceived}/${letterID}/images/add|}" method="post">
+    <form th:action="@{|/${sentOrReceived}/${letterID}/images/add|}" method="post" enctype="multipart/form-data">
         <div class="custom-file p-5">
-            <input type="file" class="custom-file-input" id="customFile">
-            <label class="custom-file-label" for="customFile">رفع صوره جديده</label>
+            <input type="file" accept="application/pdf" class="custom-file-input" id="inputFile" name="imageBytes">
+            <label class="custom-file-label" for="inputFile">رفع صوره جديده</label>
+            <button type="submit" class="btn btn-primary">رفع</button>
         </div>
 
     </form>

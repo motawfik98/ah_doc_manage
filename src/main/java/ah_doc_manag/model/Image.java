@@ -27,6 +27,10 @@ public class Image {
 
     private Long departmentNumber;
 
+    public Image() {
+        addedOn = LocalDate.now();
+    }
+
     public Long getId() {
         return id;
     }
