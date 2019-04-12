@@ -136,16 +136,6 @@ public class LetterController<T extends Letter> {
         return "common/letter-details";
     }
 
-    @PreAuthorize("hasRole('ROLE_READ')")
-    @RequestMapping("/{type}/{letterID}/images")
-    public String showImages(@PathVariable String type, @PathVariable long letterID, Model model) {
-        List<Image> images = imageService.findByLetterId(letterID);
-        model.addAttribute("images", images);
-        model.addAttribute("title", "صور الصادر");
-        model.addAttribute("sentOrReceived", type);
-        model.addAttribute("letterID", letterID);
-        return "common/images";
-    }
 
     @PreAuthorize("hasRole('ROLE_READ')")
     @RequestMapping("/{type}/{letterID}/images/{imageID}")
