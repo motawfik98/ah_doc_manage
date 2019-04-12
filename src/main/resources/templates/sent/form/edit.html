@@ -21,17 +21,8 @@
 
         <button type="submit" class="btn btn-primary mr-3">تعديل</button>
     </form>
-    <button type="button" class="btn btn-secondary mr-3" data-toggle="modal" data-target="#deleteModal">الغاء</button>
+    <button type="button" class="btn btn-secondary mr-3" data-toggle="modal" data-target="#deleteModal">مسح</button>
 
-    <div class="btn-group dropup" role="group">
-        <button id="links" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            ربط بخطاب
-        </button>
-        <div class="dropdown-menu" aria-labelledby="links">
-            <a th:href="@{|/links/sent/${letter.id}/select-previous-received|}" class="dropdown-item">وارد</a>
-            <a th:href="@{|/links/sent/${letter.id}/select-previous-sent|}" class="dropdown-item">صادر</a>
-        </div>
-    </div>
     <a href="javascript:history.back()" class="button mr-3">رجوع</a>
 
 
