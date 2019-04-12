@@ -32,7 +32,7 @@
     <div th:replace="fragments :: flash"></div>
     <h1 th:text="${title}"></h1>
 
-    <form th:action="@{|/links/${baseLetterType}/${letterID}/${formAction}|}" method="post">
+    <form th:action="@{|/links/${baseLetterType}/${letterID}/confirm|}" method="post">
     <!-- table -->
         <table id="baseTable" class="table table-striped display" style="width:100%">
             <thead class="thead-dark">

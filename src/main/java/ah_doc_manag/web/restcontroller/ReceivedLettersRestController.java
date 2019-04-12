@@ -46,7 +46,11 @@ public class ReceivedLettersRestController extends LetterRestController<Received
 
     @RequestMapping("/data/select-received-letters")
     public DataTablesOutput<ReceivedLetter> buildSpecificationsWithNoCustomSearch(@Valid DataTablesInput input) {
-        return receivedLettersDataTablesRepository.findAll(input);
+        LetterSpecificationsBuilder<ReceivedLetter> linksBuilder =
+                new LetterSpecificationsBuilder<>(authenticationFacade.getDepartmentID() + "");
+        buildSpecifications(input, linksBuilder);
+
+        return receivedLettersDataTablesRepository.findAll(input, linksBuilder.getResult());
     }
 
     @RequestMapping("/received/print")

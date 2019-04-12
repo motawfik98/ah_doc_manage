@@ -22,19 +22,19 @@ public class LetterLinksController<T extends Letter> {
     @PreAuthorize("hasRole('ROLE_READ')")
     @RequestMapping("/links/{type}/{letterID}/select-previous-received")
     public String linkToPreviousReceivedLetter(@PathVariable String type, @PathVariable long letterID, Model model) {
-        addToModel(model, type, letterID, "/data/select-received-letters", "ربط بوارد", "select-previous-received");
+        addToModel(model, type, letterID, "/data/select-received-letters", "ربط بوارد");
         return "links/previous-letters";
     }
 
     @PreAuthorize("hasRole('ROLE_READ')")
     @RequestMapping("/links/{type}/{letterID}/select-previous-sent")
     public String linkToPreviousSentLetter(@PathVariable String type, @PathVariable long letterID, Model model) {
-        addToModel(model, type, letterID, "/data/select-sent-letters", "ربط بصادر", "select-previous-sent");
+        addToModel(model, type, letterID, "/data/select-sent-letters", "ربط بصادر");
         return "links/previous-letters";
     }
 
     @PreAuthorize("hasRole('ROLE_READ')")
-    @RequestMapping(value = "/links/{type}/{letterID}/select-previous-received", method = RequestMethod.POST)
+    @RequestMapping(value = "/links/{type}/{letterID}/confirm", method = RequestMethod.POST)
     public String confirmLinkToPreviousLetter(@PathVariable String type, @RequestParam long selected,
                                               @PathVariable long letterID, RedirectAttributes redirectAttributes) {
         T letter = letterService.findById(letterID).get();
@@ -55,11 +55,10 @@ public class LetterLinksController<T extends Letter> {
     }
 
     private void addToModel(Model model, @PathVariable String type, @PathVariable long letterID,
-                            String url, String title, String formAction) {
+                            String url, String title) {
         model.addAttribute("baseLetterType", type);
         model.addAttribute("letterID", letterID);
         model.addAttribute("url", url);
         model.addAttribute("title", title);
-        model.addAttribute("formAction", formAction);
     }
 }

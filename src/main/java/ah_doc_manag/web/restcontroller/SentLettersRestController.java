@@ -44,7 +44,10 @@ public class SentLettersRestController extends LetterRestController<SentLetter> 
 
     @RequestMapping("/data/select-sent-letters")
     public DataTablesOutput<SentLetter> buildSpecificationsWithNoCustomSearch(@Valid DataTablesInput input) {
-        return sentLettersDataTableRepository.findAll(input);
+        LetterSpecificationsBuilder<SentLetter> linksBuilder =
+                new LetterSpecificationsBuilder<>(authenticationFacade.getDepartmentID() + "");
+        buildSpecifications(input, linksBuilder);
+        return sentLettersDataTableRepository.findAll(input, linksBuilder.getResult());
     }
 
     @RequestMapping("/sent/print")
