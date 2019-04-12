@@ -22,14 +22,11 @@
         <a th:unless="${archived}" th:href="|/${type}/form/${letter.id}/edit|" class="btn btn-secondary mr-3">تعديل</a>
         <a th:href="|/${type}/${letter.id}/history|" class="btn btn-secondary mr-3" >نسخ قديمه</a>
 
-        <a class="btn btn-secondary mr-3" data-toggle="collapse" href="#imageCollapse" id="imageButton"
-                        aria-expanded="false" aria-controls="imageCollapse">الصور</a>
-
         <a th:href="|/links/${type}/${letter.id}/show-links|" class="btn btn-secondary mr-3">الروابط</a>
         <a href="javascript:history.back()" class="button mr-3">رجوع</a>
     </div>
 
-    <div th:replace="fragments/images :: imageCollapse(sentOrReceived=${type}, letterID=${letter.id})"></div>
+    <div th:unless="${archived}" th:replace="fragments/images :: imageCollapse(sentOrReceived=${type}, letterID=${letter.id})"></div>
 
     <div th:replace="fragments :: editHistoryModal(|/${type}/form/${letter.id}/edit|)"></div>
 

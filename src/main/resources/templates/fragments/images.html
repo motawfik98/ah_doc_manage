@@ -7,20 +7,31 @@
 
 <body>
 
-<div th:fragment="imageCollapse(sentOrReceived, letterID)" class="collapse" id="imageCollapse">
-    <button id="showHideButton" class="btn btn-primary btn-block">اظهار</button>
-
-    <div id="imagesContainer"></div>
-
+<div th:fragment="imageCollapse(sentOrReceived, letterID)">
+    <!--<button id="showHideButton" class="btn btn-primary btn-block">اظهار</button>-->
 
     <form th:action="@{|/${sentOrReceived}/${letterID}/images/add|}" method="post" enctype="multipart/form-data">
-        <div class="custom-file p-5">
+        <div class="custom-file">
             <input type="file" accept="application/pdf" class="custom-file-input" id="inputFile" name="imageBytes">
             <label class="custom-file-label" for="inputFile">رفع صوره جديده</label>
             <button type="submit" class="btn btn-primary">رفع</button>
         </div>
-
     </form>
+
+    <div class="row">
+        <div th:each="image : ${images}" class="col-sm-3 p-3" th:unless="${image.deleted}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${image.addedOn}"></h5>
+                    <a th:href="@{|/${sentOrReceived}/${image.letter.id}/images/${image.id}|}"
+                       class="btn btn-primary" target="_blank">اظهار</a>
+
+                    <a href="#" class="btn btn-primary">مسح</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 

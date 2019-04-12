@@ -46,12 +46,4 @@ class LetterRestController<T extends Letter> {
         }
         specificationsBuilder.build();
     }
-
-    @PreAuthorize("hasRole('ROLE_READ')")
-    @RequestMapping("/{type}/{letterID}/images")
-    public ResponseEntity<Object> showImages(@PathVariable String type, @PathVariable long letterID) {
-        List<Image> images = imageService.findByLetterId(letterID);
-        return new ResponseEntity<>(images, HttpStatus.OK);
-    }
-
 }

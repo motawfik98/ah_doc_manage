@@ -40,6 +40,7 @@ public class LetterController<T extends Letter> {
     @RequestMapping("/generic/{letterId}")
     public String viewLetter(@PathVariable long letterId, Model model) {
         Letter letter = letterService.findById(letterId).get(); // gets the required letter to pdf its details
+        Iterable<Image> images = imageService.findByLetterId(letterId);
         String type =  (letter.isSentLetter()) ? "sent" : "received";
         String title = (letter.isSentLetter()) ? "بيانات الصادر" : "بيانات الوارد";
 
@@ -47,6 +48,8 @@ public class LetterController<T extends Letter> {
         model.addAttribute("letter", letter); // adds it to the template
         model.addAttribute("type", type);
         model.addAttribute("title", title);
+        model.addAttribute("images", images);
+
         return "common/letter-details";
     }
 
