@@ -28,7 +28,7 @@ function prepareOutput(tableName, cols, sentOrReceived) {
         columns: cols,
         order: [[2, 'desc']],
         searchHighlight: true,
-        dom: 'Bfrtip',
+        dom: 'Brtip',
         lengthMenu: [
             [10, 25, 50, 100, -1],
             ['عرض 10 سطور', 'عرض 25 سطر', 'عرض 50 سطر', 'عرض 100 سطر', 'عرض الكل']
@@ -47,67 +47,6 @@ function prepareOutput(tableName, cols, sentOrReceived) {
                     window.open(url, '_blank');
                 }
             }
-            // {
-            //     extend: 'pdfHtml5',
-            //     text: "Datatables PDF",
-            //     orientation: 'landscape',
-            //     pageSize: 'A4',
-            //     download: 'open',
-            //     exportOptions: {
-            //         columns: Array.from(Array(cols.length).keys()).reverse()
-            //     },
-            //     customize: function (document) {
-            //         document.defaultStyle.font = 'Arabic';
-            //         var fontSize = document.defaultStyle.fontSize + "px";
-            //         console.log(document);
-                    // var actualTable = document.content[1].table;
-                    // console.log(actualTable);
-                    // console.log(actualTable.widths);
-                    // actualTable.body.forEach(function (row, index) {
-                    //     console.log(actualTable.widths[index]._calcWidth);
-                    // });
-
-                    // document.content[1].table.body.forEach(function (item) {
-                        // item.forEach(function (stringDocument) {
-
-                            // stringDocument.text = reverseString(stringDocument.text);
-                            // stringDocument.text = stringDocument.text.split(" ").reverse().join(" ").split("\n").reverse().join("\n");
-                            //
-                            // stringDocument.text = stringDocument.text.split(' ').join(String.fromCharCode(160));
-                            // stringDocument.alignment = 'right';
-                            // console.log(stringDocument.text);
-                        // });
-                    // });
-            //     }
-            // }, {
-            //     extend: "print",
-            //     text: "طباعه",
-            //     customize: function(win)
-            //     {
-            //
-            //         var last = null;
-            //         var current = null;
-            //         var bod = [];
-            //
-            //         var css = '@page { size: landscape; }',
-            //             head = win.document.head || win.document.getElementsByTagName('head')[0],
-            //             style = win.document.createElement('style');
-            //
-            //         style.type = 'text/css';
-            //         style.media = 'print';
-            //
-            //         if (style.styleSheet)
-            //         {
-            //             style.styleSheet.cssText = css;
-            //         }
-            //         else
-            //         {
-            //             style.appendChild(win.document.createTextNode(css));
-            //         }
-            //
-            //         head.appendChild(style);
-            //     }
-            // }
 
         ]
 
@@ -181,7 +120,6 @@ function search(table) {
     $('.search').each(function() {
         searchConcept(table, $(this));
     });
-
 }
 
 function searchConcept(table, $field) {

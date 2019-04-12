@@ -12,7 +12,8 @@
 
     <form th:action="@{|/${sentOrReceived}/${letterID}/images/add|}" method="post" enctype="multipart/form-data">
         <div class="custom-file">
-            <input type="file" accept="application/pdf" class="custom-file-input" id="inputFile" name="imageBytes">
+            <input type="file" accept="application/pdf" class="custom-file-input" id="inputFile"
+                   name="imageBytes" required="required">
             <label class="custom-file-label" for="inputFile">رفع صوره جديده</label>
             <button type="submit" class="btn btn-primary">رفع</button>
         </div>

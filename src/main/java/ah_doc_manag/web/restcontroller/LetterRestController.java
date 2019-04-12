@@ -1,29 +1,24 @@
 package ah_doc_manag.web.restcontroller;
 
 import ah_doc_manag.dao.LetterSpecificationsBuilder;
-import ah_doc_manag.model.Image;
 import ah_doc_manag.model.Letter;
-import ah_doc_manag.service.ImageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.Column;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.data.jpa.datatables.mapping.Search;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 class LetterRestController<T extends Letter> {
-    @Autowired
-    private ImageService imageService;
 
     void buildSpecifications(@Valid DataTablesInput input, LetterSpecificationsBuilder<T> specificationsBuilder) {
+        Search search = input.getSearch();
+        if(!search.getValue().equals("")) {
+            Column number = input.getColumn("number");
+            number.getSearch().setValue(search.getValue());
+            search.setValue("");
+        }
         for (Column column : input.getColumns()) {
             column.setSearchable(false);
             String columnValue = column.getSearch().getValue();
@@ -44,6 +39,7 @@ class LetterRestController<T extends Letter> {
             specificationsBuilder.with(columnName, columnValue);
 
         }
+
         specificationsBuilder.build();
     }
 }
