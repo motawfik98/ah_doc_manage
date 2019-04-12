@@ -49,7 +49,7 @@
     </div>
     <div class="form-group col">
         <label for="date">التاريخ</label>
-        <input type="date" th:field="*{date}" class="form-control" id="date" placeholder="التاريخ" th:readonly="${readonly}"
+        <input type="text" th:field="*{date}" class="form-control datepicker" id="date" placeholder="التاريخ" th:readonly="${readonly}"
                th:classappend="${#fields.hasErrors('date')} ? 'is-invalid' : ''"/>
         <div class="invalid-feedback" th:errors="*{date}"></div>
     </div>

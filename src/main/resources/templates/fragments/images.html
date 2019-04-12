@@ -7,17 +7,7 @@
 
 <body>
 
-<div th:fragment="imageCollapse(sentOrReceived, letterID)">
-    <!--<button id="showHideButton" class="btn btn-primary btn-block">اظهار</button>-->
-
-    <form th:action="@{|/${sentOrReceived}/${letterID}/images/add|}" method="post" enctype="multipart/form-data">
-        <div class="custom-file">
-            <input type="file" accept="application/pdf" class="custom-file-input" id="inputFile"
-                   name="imageBytes" required="required">
-            <label class="custom-file-label" for="inputFile">رفع صوره جديده</label>
-            <button type="submit" class="btn btn-primary">رفع</button>
-        </div>
-    </form>
+<div th:fragment="showImages(sentOrReceived)">
 
     <div class="row">
         <div th:each="image : ${images}" class="col-sm-3 p-3" th:unless="${image.deleted}">

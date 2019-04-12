@@ -90,10 +90,12 @@ public class LetterController<T extends Letter> {
             model.addAttribute("url", "/data/sent-letters");
             model.addAttribute("fileName", "sentDataTables.js");// add the required javascript name
             model.addAttribute("sent", true); // give a clue to thymeleaf to know the letter type
+            model.addAttribute("title", "الصادر");
         } else if (type.equals("received")) {
             model.addAttribute("url", "/data/received-letters");
             model.addAttribute("fileName", "receivedDataTables.js");// add the required javascript name
             model.addAttribute("received", true); // give a clue to thymeleaf to know the letter type
+            model.addAttribute("title", "الوارد");
 
         }
         return "common/letters";
@@ -105,7 +107,7 @@ public class LetterController<T extends Letter> {
         letterService.delete(letterID);
         // inform the user that the letter was successfully deleted
         redirectAttributes.addFlashAttribute("flash", new FlashMessage("تم الغاء الخطاب", FlashMessage.Status.SUCCESS));
-        return "redirect:/show-sent";
+        return String.format("redirect:/%s", type);
     }
 
 
@@ -157,12 +159,18 @@ public class LetterController<T extends Letter> {
 
     @PreAuthorize("hasRole('ROLE_CREATE')")
     @RequestMapping(value = "/{type}/{letterID}/images/add", method = RequestMethod.POST)
-    public String addImage(@RequestParam MultipartFile imageBytes, @PathVariable long letterID) {
+    public String addImage(@RequestParam MultipartFile imageBytes, @PathVariable long letterID, RedirectAttributes redirectAttributes) {
         Image image = new Image();
         image.setLetter(letterService.findById(letterID).get());
         boolean save = imageService.save(image, imageBytes);
         if(!save) {
-            // TODO display a flash message saying that the image wasn't saved
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage(
+                    "حدث خظأ أثناء رفع الصوره", FlashMessage.Status.SUCCESS
+            ));
+        } else {
+            redirectAttributes.addFlashAttribute("flash", new FlashMessage(
+                    "تم رفع الصوره", FlashMessage.Status.SUCCESS
+            ));
         }
 
         return String.format("redirect:/generic/%s", letterID);

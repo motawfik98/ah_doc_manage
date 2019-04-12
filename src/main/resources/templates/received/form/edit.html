@@ -25,10 +25,15 @@
     </form>
     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#deleteModal">مسح</button>
 
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#returnToDetailsModal">اظهار الخطاب</button>
+
     <a href="javascript:history.back()" class="button mr-3">رجوع</a>
 
     <!--modal-->
     <div th:replace="fragments :: deleteModal(|/received/${letter.id}/delete|)"></div>
+    <!--/modal-->
+    <!--modal-->
+    <div th:replace="fragments :: unsavedChanges(|/generic/${letter.id}|)"></div>
     <!--/modal-->
 </div>
 

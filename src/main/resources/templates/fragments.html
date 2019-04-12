@@ -26,7 +26,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <h5 class="text-info">بيانات رئسيه</h5>
+                        <h5 class="text-info">بيانات رئيسية</h5>
 
                     </div>
 
@@ -100,6 +100,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://cdn.rtlcss.com/bootstrap/v4.2.1/js/bootstrap.min.js" integrity="sha384-a9xOd0rz8w0J8zqj1qJic7GPFfyMfoiuDjC9rqXlVOcGO/dmRqzMn34gZYDTel8k" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker3.min.css}"/>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/app.css}"/>
 </head>
@@ -112,25 +114,24 @@
 
 <!--/letter links buttons-->
 
-<!--delete modal-->
-<div th:fragment="deleteModal(deleteUrl)">
-    <div class="modal fade" id="deleteModal" tabindex="-1" roleValue="dialog" aria-labelledby="exampleModalCenterTitle"
+<div th:fragment="modal(id, modalUrl, header, body, methodType)">
+    <div class="modal fade" th:id="${id}" tabindex="-1" roleValue="dialog" aria-labelledby="exampleModalCenterTitle"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" roleValue="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">مسح سجل</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle" th:text="${header}"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    هل انت متأكد من مسح السجل ؟
+                <div class="modal-body" th:text="${body}">
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                    <form th:action="${deleteUrl}" method="post">
-                        <button type="submit" class="btn btn-primary">مسح</button>
+                    <form th:action="${modalUrl}" th:method="${methodType}">
+                        <button type="submit" class="btn btn-primary">موافق</button>
                     </form>
                 </div>
             </div>
@@ -138,28 +139,20 @@
     </div>
 </div>
 
+
+<!--delete modal-->
+<div th:fragment="deleteModal(deleteUrl)">
+    <div th:replace="this :: modal(id='deleteModal', modalUrl=${deleteUrl}, header='مسح سجل', body='هل انت متأكد من مسح السجل ؟', methodType='post')"></div>
+</div>
+
 <div th:fragment="editHistoryModal(editLink)">
-    <div class="modal fade" id="editHistoryModal" tabindex="-1" roleValue="dialog"
-         aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" roleValue="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">انتبه</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    سوف يتم توجيهك الى احدث نسخه من الخطاب للتعديل
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                    <a th:href="${editLink}">موافق</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div th:replace="this :: modal(id='editModal',modalUrl=${editLink}, header='انتبه',
+                body='سوف يتم توجيهك الى احدث نسخه من الخطاب للتعديل', methodType='get')"></div>
+</div>
+
+<div th:fragment="unsavedChanges(returnUrl)">
+    <div th:replace="this :: modal(id='returnToDetailsModal', modalUrl=${returnUrl}, header='حفظ البيانات',
+                body='سوف يتم تجاهل اي تغييرات - هل انت متأك من الحفظ ؟', methodType='get')"></div>
 </div>
 
 <!--/delete modal-->

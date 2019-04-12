@@ -60,6 +60,9 @@ $(document).ready(function () {
             myTable.ajax.url("/data/select-received-letters").load();
         }
     });
+    $("#file-upload").on('change', function() {
+        $("#file-form").submit();
+    });
 });
 
 !function (e) {
