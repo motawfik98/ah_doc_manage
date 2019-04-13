@@ -157,6 +157,18 @@ public class LetterController<T extends Letter> {
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_READ')")
+    @RequestMapping(value = "/{type}/{letterID}/images/{imageID}/delete", method = RequestMethod.POST)
+    public String deleteImage(@PathVariable String type, @PathVariable long letterID, @PathVariable long imageID,
+                              RedirectAttributes redirectAttributes) {
+
+        Image image = imageService.findById(imageID).get();
+        image.setDeleted(true);
+        imageService.save(image);
+        redirectAttributes.addFlashAttribute("flash", new FlashMessage("تم الغاء الصوره", FlashMessage.Status.SUCCESS));
+        return String.format("redirect:/generic/%s", letterID);
+    }
+
     @PreAuthorize("hasRole('ROLE_CREATE')")
     @RequestMapping(value = "/{type}/{letterID}/images/add", method = RequestMethod.POST)
     public String addImage(@RequestParam MultipartFile imageBytes, @PathVariable long letterID, RedirectAttributes redirectAttributes) {

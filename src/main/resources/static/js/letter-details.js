@@ -60,9 +60,25 @@ $(document).ready(function () {
             myTable.ajax.url("/data/select-received-letters").load();
         }
     });
-    $("#file-upload").on('change', function() {
+    $("#file-upload").on('change', function () {
         $("#file-form").submit();
     });
+    $(".deleteImageForm").on('submit', function (e) {
+        e.preventDefault();
+        swal({
+            title: "هل انت متأكد ؟",
+            text: "لن تستطيع استرجاع الصوره",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((isConfirm) => {
+            if (isConfirm) {
+                this.submit();
+            } else
+                swal("تم الألغاء", "تم الغاء العمليه", "error");
+        })
+
+    })
 });
 
 !function (e) {
