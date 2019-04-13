@@ -59,9 +59,9 @@
     <div th:replace="fragments/details :: viewDetails(letter=${letter}, archived=${archived}, revision=${revision})"></div>
 
     <div class="btn-group mb-5" roleValue="group" aria-label="Basic example">
-        <button th:if="${archived}" type="button" class="btn btn-secondary mr-3"
-                data-toggle="modal" data-target="#editHistoryModal">تعديل
-        </button>
+        <a id="editArchive" th:if="${archived}" th:href="@{|/${type}/form/${letter.id}/edit|}"
+           class="btn btn-secondary mr-3">تعديل</a>
+
         <a th:unless="${archived}" th:href="|/${type}/form/${letter.id}/edit|" class="btn btn-secondary mr-3">تعديل</a>
         <a th:href="|/${type}/${letter.id}/history|" class="btn btn-secondary mr-3">نسخ قديمه</a>
         <a th:if="${archived}" th:href="|/generic/${letter.id}|" class="btn btn-secondary mr-3">النسخه الحاليه</a>

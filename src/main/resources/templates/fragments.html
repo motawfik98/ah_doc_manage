@@ -103,6 +103,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-datepicker3.min.css}"/>
     <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <link rel="stylesheet" type="text/css" th:href="@{/css/app.css}"/>
 </head>
 <!--/head-->
@@ -140,19 +142,10 @@
 </div>
 
 
-<!--delete modal-->
-<div th:fragment="deleteModal(deleteUrl)">
-    <div th:replace="this :: modal(id='deleteModal', modalUrl=${deleteUrl}, header='مسح سجل', body='هل انت متأكد من مسح السجل ؟', methodType='post')"></div>
-</div>
 
 <div th:fragment="editHistoryModal(editLink)">
     <div th:replace="this :: modal(id='editModal',modalUrl=${editLink}, header='انتبه',
                 body='سوف يتم توجيهك الى احدث نسخه من الخطاب للتعديل', methodType='get')"></div>
-</div>
-
-<div th:fragment="unsavedChanges(returnUrl)">
-    <div th:replace="this :: modal(id='returnToDetailsModal', modalUrl=${returnUrl}, header='حفظ البيانات',
-                body='سوف يتم تجاهل اي تغييرات - هل انت متأك من الحفظ ؟', methodType='get')"></div>
 </div>
 
 <!--/delete modal-->

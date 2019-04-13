@@ -21,20 +21,17 @@
 
         <button type="submit" class="btn btn-primary mr-3">تعديل</button>
     </form>
-    <button type="button" class="btn btn-secondary mr-3" data-toggle="modal" data-target="#deleteModal">مسح</button>
 
-    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#returnToDetailsModal">اظهار الخطاب</button>
+    <form id="deleteLetter" class="d-inline mr-3" th:action="@{|/sent/${letter.id}/delete|}" method="post">
+        <button type="submit" class="btn btn-primary">مسح</button>
+    </form>
 
-    <a href="javascript:history.back()" class="button mr-3">رجوع</a>
-
-
-    <!--modal-->
-    <div th:replace="fragments :: deleteModal(|/sent/${letter.id}/delete|)"></div>
-    <!--/modal-->
-
-    <div th:replace="fragments :: unsavedChanges(|/generic/${letter.id}|)"></div>
+    <a id="redirectLetter" th:href="@{|/generic/${letter.id}|}" type="submit" class="btn btn-primary mr-3">اظهار الخطاب</a>
 
 </div>
 </body>
+
+
+<script th:src="@{/js/confirm-actions.js}"></script>
 
 </html>

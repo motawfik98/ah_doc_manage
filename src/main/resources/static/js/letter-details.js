@@ -71,12 +71,28 @@ $(document).ready(function () {
             icon: "warning",
             buttons: true,
             dangerMode: true
-        }).then((isConfirm) => {
-            if (isConfirm) {
+        }).then((isConfirm) = > {
+            if(isConfirm) {
                 this.submit();
             } else
                 swal("تم الألغاء", "تم الغاء العمليه", "error");
-        })
+    })
+    });
+
+    $(".editArchive").on('click', function (e) {
+        e.preventDefault();
+        swal({
+            title: "انتبه",
+            text: "سوف يتم توجيهك الى احدث نسخه من الخطاب للتعديل",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then((isConfirm) => {
+            if (isConfirm) {
+                window.location.href = $(this).attr('href');
+            } else
+                swal("تم الألغاء", "تم الغاء العمليه", "error");
+    })
 
     })
 });
