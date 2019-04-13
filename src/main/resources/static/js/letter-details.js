@@ -71,7 +71,7 @@ $(document).ready(function () {
             icon: "warning",
             buttons: true,
             dangerMode: true
-        }).then((isConfirm) = > {
+        }).then((isConfirm) => {
             if(isConfirm) {
                 this.submit();
             } else
@@ -79,7 +79,7 @@ $(document).ready(function () {
     })
     });
 
-    $(".editArchive").on('click', function (e) {
+    $("#editArchive").on('click', function (e) {
         e.preventDefault();
         swal({
             title: "انتبه",
